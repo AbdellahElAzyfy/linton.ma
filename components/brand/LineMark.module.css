@@ -1,0 +1,20 @@
+.mark {
+  display: inline-flex;
+  align-items: baseline;
+  font-family: var(--font-logo);
+  font-weight: 700;
+  letter-spacing: 0.012em;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.accent,
+.suffix {
+  color: var(--mint);
+}
+
+.suffix {
+  margin-left: 0.07em;
+  font-size: 0.54em;
+  font-weight: 500;
+}

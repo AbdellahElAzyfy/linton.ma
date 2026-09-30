@@ -1,0 +1,284 @@
+.header {
+  position: fixed;
+  z-index: 100;
+  top: 0;
+  left: 0;
+  width: 100%;
+  color: var(--text-on-inverted);
+  border-bottom: 1px solid transparent;
+  transition: background-color 240ms ease, border-color 240ms ease, box-shadow 240ms ease;
+}
+
+.headerScrolled {
+  background: color-mix(in srgb, var(--bg-inverted) 94%, transparent);
+  border-color: var(--border-on-inverted);
+  box-shadow: 0 10px 40px rgba(2, 14, 20, 0.2);
+  backdrop-filter: blur(16px) saturate(120%);
+}
+
+/* Used instead of .headerScrolled while the mobile menu is open and the page
+   hasn't actually been scrolled: backdrop-filter creates a new containing
+   block for fixed-position descendants, which broke .mobileNav's full-screen
+   `inset: 0` (it was sizing itself against the header bar instead of the
+   viewport). Same solid look, no backdrop-filter side effect. */
+.headerMenuOpen {
+  background: var(--bg-inverted);
+  border-color: var(--border-on-inverted);
+}
+
+.inner {
+  display: grid;
+  min-height: var(--header-height);
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: clamp(1rem, 3vw, 3rem);
+}
+
+.brand {
+  display: inline-flex;
+  align-items: center;
+  justify-self: start;
+  color: inherit;
+}
+
+.brandLogo {
+  height: 4.5rem;
+  width: auto;
+}
+
+.nav {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(1rem, 2vw, 2rem);
+}
+
+.navLink {
+  position: relative;
+  display: inline-flex;
+  min-height: 2.75rem;
+  align-items: center;
+  color: var(--text-on-inverted-muted);
+  font-size: 0.78rem;
+  font-weight: 600;
+  transition: color 180ms ease;
+}
+
+.navLink::after {
+  position: absolute;
+  right: 0;
+  bottom: 0.45rem;
+  left: 0;
+  height: 1px;
+  background: var(--mint);
+  content: "";
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform 220ms var(--ease-out);
+}
+
+.navLink:hover,
+.navLink[aria-current="page"] {
+  color: var(--text-on-inverted);
+}
+
+.navLink:hover::after,
+.navLink[aria-current="page"]::after {
+  transform: scaleX(1);
+  transform-origin: left;
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  justify-self: end;
+  gap: 0.75rem;
+}
+
+/* Specificity beats .button (equal-specificity, load-order-dependent) so this
+   reliably hides the desktop CTA on narrow screens regardless of CSS order. */
+.actions :global(.button).cta {
+  display: none;
+}
+
+.menuToggle {
+  display: none;
+  width: 2.75rem;
+  height: 2.75rem;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  background: transparent;
+  border: 1px solid var(--border-on-inverted);
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.menuToggle span {
+  position: absolute;
+  width: 1.1rem;
+  height: 1px;
+  background: currentColor;
+  transition: transform 200ms ease, opacity 150ms ease;
+}
+
+.menuToggle span:first-child {
+  transform: translateY(-0.2rem);
+}
+
+.menuToggle span:last-child {
+  transform: translateY(0.2rem);
+}
+
+.menuToggleOpen span:first-child {
+  transform: rotate(45deg);
+}
+
+.menuToggleOpen span:last-child {
+  transform: rotate(-45deg);
+}
+
+.mobileNav {
+  position: fixed;
+  z-index: 90;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  padding: calc(var(--header-height) + 2rem) 2rem 3rem;
+  overflow-y: auto;
+  visibility: hidden;
+  background: var(--bg-inverted);
+  color: var(--text-on-inverted);
+  opacity: 0;
+  transform: translateY(-1rem);
+  transition: opacity 220ms ease, transform 220ms var(--ease-out), visibility 0s linear 220ms;
+}
+
+.mobileNavOpen {
+  visibility: visible;
+  opacity: 1;
+  transform: translateY(0);
+  transition-delay: 0s;
+}
+
+.mobileNavLink {
+  width: 100%;
+  padding-block: 0.6rem;
+  color: var(--text-on-inverted);
+  font-family: var(--font-display);
+  font-size: clamp(2.4rem, 9vw, 3.6rem);
+  font-weight: 600;
+  line-height: 1.05;
+  text-transform: uppercase;
+  transition: color 180ms ease;
+}
+
+.mobileNavLink:hover,
+.mobileNavLink:focus-visible {
+  color: var(--mint);
+}
+
+.mobileLinesTitle {
+  margin: 2rem 0 0.75rem;
+  color: var(--mint);
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  font-weight: 500;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+}
+
+.mobileLines {
+  display: grid;
+  width: 100%;
+  gap: 0.5rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.mobileLine {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 0.25rem 1rem;
+  padding: 0.85rem 1rem;
+  background: var(--bg-inverted-soft);
+  border: 1px solid var(--border-on-inverted);
+  border-radius: var(--radius-sm);
+  transition: border-color 180ms ease;
+}
+
+.mobileLine:hover,
+.mobileLine:focus-visible {
+  border-color: var(--mint);
+}
+
+.mobileLineMark {
+  font-size: 1.1rem;
+}
+
+.mobileLineName {
+  min-width: 0;
+  color: var(--text-on-inverted-muted);
+  font-size: 0.78rem;
+}
+
+.mobileLineArrow {
+  color: var(--mint);
+}
+
+@media (max-width: 26rem) {
+  .mobileLine {
+    grid-template-columns: 1fr auto;
+  }
+
+  .mobileLineName {
+    grid-row: 2;
+  }
+}
+
+.mobileActions {
+  display: flex;
+  margin-top: 2.5rem;
+  align-items: center;
+  gap: 1rem;
+}
+
+@media (min-width: 74rem) {
+  .actions :global(.button).cta {
+    display: inline-flex;
+  }
+}
+
+/* The plain wordmark is 2.83x as wide as it is tall. Below the tablet width
+   its height follows the viewport so logo + header buttons (~9.5rem) +
+   gutters always fit — otherwise the grid squeezes the image and distorts it. */
+@media (max-width: 40rem) {
+  .brandLogo {
+    height: min(3.5rem, calc((100vw - 13.5rem) / 2.83));
+  }
+}
+
+@media (max-width: 30rem) {
+  .actions {
+    gap: 0.5rem;
+  }
+}
+
+@media (max-width: 61rem) {
+  .nav {
+    display: none;
+  }
+
+  .menuToggle {
+    display: flex;
+    position: relative;
+    /* .mobileNav (a sibling, z-index: 90) would otherwise cover this button
+       once open — z-index only orders elements among their own siblings, so
+       header's own z-index: 100 doesn't protect it. */
+    z-index: 95;
+  }
+}

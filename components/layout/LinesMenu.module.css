@@ -1,0 +1,187 @@
+.root {
+  display: inline-flex;
+  align-items: center;
+}
+
+.trigger {
+  position: relative;
+  display: inline-flex;
+  min-height: 2.75rem;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0;
+  color: var(--text-on-inverted-muted);
+  background: transparent;
+  border: 0;
+  cursor: pointer;
+  font-size: 0.78rem;
+  font-weight: 600;
+  transition: color 180ms ease;
+}
+
+.trigger:hover,
+.triggerOpen {
+  color: var(--text-on-inverted);
+}
+
+.chevron {
+  width: 0.6rem;
+  height: 0.4rem;
+  fill: none;
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 1.5;
+  transition: transform 180ms var(--ease-out);
+}
+
+.triggerOpen .chevron {
+  transform: rotate(180deg);
+}
+
+.scrim {
+  position: fixed;
+  z-index: 80;
+  inset: var(--header-height) 0 0;
+  background: rgba(2, 4, 10, 0.35);
+  pointer-events: none;
+  animation: fade-in 180ms ease both;
+}
+
+/* Inset floating panel with the mint-tinted border, same as linton-id.com's
+   mega menu. Fixed to the viewport (not the trigger) so it can span the
+   shell width regardless of where the trigger sits in the nav. */
+.panel {
+  position: fixed;
+  z-index: 90;
+  top: var(--header-height);
+  right: 0;
+  left: 0;
+  width: min(calc(100% - 4rem), 72rem);
+  margin-inline: auto;
+  padding: 1.75rem clamp(1rem, 2.5vw, 2rem) 2rem;
+  color: var(--text-on-inverted);
+  background: var(--bg-inverted);
+  border: 1px solid color-mix(in srgb, var(--mint) 55%, transparent);
+  border-radius: 0 0 var(--radius) var(--radius);
+  box-shadow: 0 1.5rem 3rem rgba(2, 4, 10, 0.45);
+  visibility: hidden;
+  opacity: 0;
+  transform: translateY(-0.5rem);
+  transition: opacity 200ms var(--ease-out), transform 200ms var(--ease-out), visibility 0s linear 200ms;
+}
+
+.panelOpen {
+  visibility: visible;
+  opacity: 1;
+  transform: translateY(0);
+  transition-delay: 0s;
+}
+
+.intro {
+  margin: 0 0 1.25rem;
+  color: var(--text-on-inverted-muted);
+  font-size: 0.85rem;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.card {
+  --line-accent: var(--mint);
+  display: flex;
+  height: 100%;
+  flex-direction: column;
+  gap: 0.9rem;
+  padding: 1.25rem;
+  background: var(--bg-inverted-soft);
+  border: 1px solid var(--border-on-inverted);
+  border-radius: var(--radius-sm);
+  transition: border-color 180ms ease, transform 220ms var(--ease-out);
+}
+
+.card[data-accent="cyan"] {
+  --line-accent: var(--cyan);
+}
+
+.card:hover,
+.card:focus-visible {
+  border-color: var(--line-accent);
+  transform: translateY(-2px);
+}
+
+.cardTop {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+}
+
+.icon {
+  display: grid;
+  width: 2.4rem;
+  height: 2.4rem;
+  flex: none;
+  place-items: center;
+  color: var(--ink);
+  background: var(--line-accent);
+  border-radius: 50%;
+}
+
+.card[data-accent="mix"] .icon {
+  background: linear-gradient(135deg, var(--mint), var(--cyan));
+}
+
+.icon svg {
+  width: 1.2rem;
+  fill: none;
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 1.8;
+}
+
+.mark {
+  font-size: 1.35rem;
+}
+
+.name {
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+  font-weight: 600;
+  line-height: 1.05;
+  text-transform: uppercase;
+}
+
+.domain {
+  display: inline-flex;
+  margin-top: auto;
+  align-items: center;
+  gap: 0.4rem;
+  color: var(--text-on-inverted-muted);
+  font-family: var(--font-mono);
+  font-size: 0.66rem;
+  letter-spacing: 0.06em;
+  transition: color 180ms ease;
+}
+
+.card:hover .domain {
+  color: var(--mint);
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+}
+
+@media (max-width: 72rem) {
+  .panel {
+    width: calc(100% - 2rem);
+  }
+}

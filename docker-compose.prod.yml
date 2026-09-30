@@ -1,0 +1,28 @@
+# Production stack for a VPS. Run with:
+#   docker compose -f docker-compose.prod.yml --env-file .env up -d --build
+# SMTP_* are only read at runtime (contact form), so nothing is needed at build time.
+services:
+  app:
+    build: .
+    restart: unless-stopped
+    env_file:
+      - .env
+    expose:
+      - "3000"
+
+  caddy:
+    image: caddy:2
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy-data:/data
+      - caddy-config:/config
+    depends_on:
+      - app
+
+volumes:
+  caddy-data:
+  caddy-config:

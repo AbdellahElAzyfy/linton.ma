@@ -1,0 +1,13 @@
+import "server-only";
+
+const dictionaries = {
+  en: () => import("@/dictionaries/en.json").then((module) => module.default),
+  fr: () => import("@/dictionaries/fr.json").then((module) => module.default),
+};
+
+export const locales = Object.keys(dictionaries);
+export const defaultLocale = "fr";
+
+export const hasLocale = (locale) => locale in dictionaries;
+
+export const getDictionary = async (locale) => dictionaries[locale]();

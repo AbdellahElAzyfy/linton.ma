@@ -1,0 +1,261 @@
+{
+  "meta": {
+    "siteName": "LINTON",
+    "tagline": "Traçabilité · Digitalisation · IA",
+    "title": "LINTON — Identification, cloud et cybersécurité",
+    "description": "LINTON réunit trois métiers complémentaires — identification industrielle, développement et solutions cloud, cybersécurité et média — pour accompagner les entreprises de la capture de la donnée jusqu'à sa protection."
+  },
+  "nav": {
+    "home": "Accueil",
+    "lines": "Nos métiers",
+    "about": "Le groupe",
+    "contact": "Contact",
+    "cta": "Nous contacter",
+    "openMenu": "Ouvrir le menu",
+    "closeMenu": "Fermer le menu",
+    "linesIntro": "Chaque métier a son propre site. Choisissez celui qui correspond à votre besoin.",
+    "external": "Ouvre le site dans un nouvel onglet"
+  },
+  "theme": {
+    "light": "Passer en mode clair",
+    "dark": "Passer en mode sombre"
+  },
+  "language": {
+    "switchTo": "English"
+  },
+  "common": {
+    "loading": "Chargement…",
+    "visit": "Visiter {domain}"
+  },
+  "lines": {
+    "id": {
+      "name": "Identification & traçabilité",
+      "short": "Traçabilité",
+      "pitch": "Code-barres, RFID, étiquetage et marquage : nous équipons vos ateliers et entrepôts pour suivre chaque produit, chaque lot et chaque flux — et relions ces données à votre ERP, WMS ou MES.",
+      "capabilities": [
+        "Code-barres & RFID",
+        "Étiquetage & marquage",
+        "Flux matière & traçabilité",
+        "Intégration ERP · WMS · MES",
+        "Matériel, réparation & maintenance"
+      ]
+    },
+    "cloud": {
+      "name": "Développement, Odoo & Microsoft 365",
+      "short": "Odoo · MS365",
+      "pitch": "Applications métier sur mesure, implémentation Odoo et déploiement Microsoft 365 : nous digitalisons vos processus et mettons vos équipes sur des outils qui travaillent ensemble.",
+      "capabilities": [
+        "Développement sur mesure",
+        "Implémentation & paramétrage Odoo",
+        "Microsoft 365 & collaboration",
+        "Automatisation des processus",
+        "Formation & accompagnement"
+      ]
+    },
+    "media": {
+      "name": "Cybersécurité & média",
+      "short": "Cybersécurité",
+      "pitch": "Sécuriser vos systèmes et porter votre image : audit et protection de votre infrastructure, sensibilisation de vos équipes et production de contenus pour votre marque.",
+      "capabilities": [
+        "Audit & sécurisation",
+        "Protection des postes & réseaux",
+        "Sensibilisation des équipes",
+        "Production de contenus",
+        "Identité & présence digitale"
+      ]
+    }
+  },
+  "home": {
+    "hero": {
+      "eyebrow": "Groupe LINTON · Maroc",
+      "headlineLine1": "Du terrain",
+      "headlineLine2": "au numérique.",
+      "lead": "LINTON réunit trois métiers complémentaires — identification industrielle, solutions cloud et cybersécurité — pour accompagner les entreprises de la capture de la donnée jusqu'à sa protection.",
+      "primaryCta": "Découvrir nos métiers",
+      "secondaryCta": "Nous contacter",
+      "note": "3 métiers · 1 seul interlocuteur",
+      "visualTitle": "Le groupe LINTON et ses trois métiers",
+      "visualDesc": "Le signal LINTON au centre, entouré de trois orbites portant chacune un métier : ID, Cloud et Media."
+    },
+    "lines": {
+      "eyebrow": "Nos métiers",
+      "title": "Trois expertises,\nune même exigence",
+      "lead": "Chaque métier dispose de son site, de ses équipes et de ses références. Choisissez celui qui correspond à votre besoin."
+    },
+    "chain": {
+      "eyebrow": "Une chaîne continue",
+      "title": "Capturer, exploiter,\nprotéger",
+      "lead": "Nos trois métiers couvrent tout le parcours de la donnée dans l'entreprise. Vous pouvez faire appel à un seul, ou les combiner dans un même projet.",
+      "steps": [
+        {
+          "code": "01",
+          "verb": "Capturer",
+          "line": "id",
+          "body": "Codes-barres, RFID et marquage donnent une identité à chaque produit, sur la ligne comme en entrepôt."
+        },
+        {
+          "code": "02",
+          "verb": "Exploiter",
+          "line": "cloud",
+          "body": "Odoo, Microsoft 365 et applications sur mesure transforment ces données en processus et en décisions."
+        },
+        {
+          "code": "03",
+          "verb": "Protéger",
+          "line": "media",
+          "body": "La cybersécurité garde vos systèmes disponibles et vos données à l'abri ; nos contenus portent votre image."
+        }
+      ]
+    },
+    "values": {
+      "eyebrow": "Pourquoi LINTON",
+      "title": "Un partenaire\nindustriel et technique",
+      "lead": "Une approche d'intégrateur : on part de votre terrain, on livre un système qui fonctionne, et on reste pour le faire vivre.",
+      "items": [
+        {
+          "code": "V-01",
+          "title": "Précision",
+          "body": "Des projets cadrés, mesurés et documentés, du premier audit à la mise en service."
+        },
+        {
+          "code": "V-02",
+          "title": "Intégration",
+          "body": "Nos métiers se parlent : équipements, logiciels et données forment un seul système cohérent."
+        },
+        {
+          "code": "V-03",
+          "title": "Proximité",
+          "body": "Des équipes basées au Maroc, disponibles sur site comme à distance."
+        },
+        {
+          "code": "V-04",
+          "title": "Durée",
+          "body": "Support, maintenance et évolutions : nous restons à vos côtés après la livraison."
+        }
+      ]
+    }
+  },
+  "about": {
+    "metaTitle": "Le groupe",
+    "metaDescription": "LINTON est un groupe marocain qui réunit trois métiers : identification et traçabilité industrielles, développement et solutions cloud, cybersécurité et média.",
+    "header": {
+      "eyebrow": "Le groupe",
+      "title": "Une marque, trois métiers",
+      "lead": "LINTON accompagne les entreprises industrielles et tertiaires dans leur transformation, de l'atelier jusqu'au cloud."
+    },
+    "story": {
+      "eyebrow": "Notre histoire",
+      "title": "Né sur le terrain\nindustriel",
+      "paragraphs": [
+        "LINTON s'est construit autour de l'identification et de la traçabilité industrielles : équiper les lignes de production et les entrepôts pour que chaque produit soit suivi, du lot de matière première à l'expédition.",
+        "En intégrant ces systèmes aux ERP de nos clients, nous avons naturellement élargi notre expertise au développement, à Odoo et à Microsoft 365, puis à la cybersécurité — parce qu'une donnée captée et exploitée doit aussi être protégée.",
+        "Aujourd'hui, le groupe réunit ces trois métiers sous une même marque, avec des équipes spécialisées et un seul niveau d'exigence."
+      ]
+    },
+    "figures": [
+      { "value": "3", "label": "métiers complémentaires" },
+      { "value": "1", "label": "interlocuteur pour vos projets croisés" },
+      { "value": "FR · EN", "label": "équipes bilingues" }
+    ],
+    "linesTitle": "Nos trois sites"
+  },
+  "contactPage": {
+    "metaTitle": "Contact",
+    "metaDescription": "Contactez le groupe LINTON : nous orientons votre demande vers le bon métier.",
+    "header": {
+      "eyebrow": "Contact",
+      "title": "Parlons de votre projet",
+      "lead": "Décrivez votre besoin : nous l'orientons vers le bon métier et revenons vers vous rapidement."
+    },
+    "details": {
+      "title": "Coordonnées",
+      "addressLabel": "Adresse",
+      "address": "Tanger, Maroc",
+      "emailLabel": "E-mail",
+      "email": "contact@linton.ma",
+      "phoneLabel": "Téléphone",
+      "phone": "+212 5 00 00 00 00",
+      "hoursLabel": "Horaires",
+      "hours": "Lundi – vendredi · 9 h – 18 h"
+    },
+    "direct": {
+      "title": "Vous savez déjà quel métier ?",
+      "body": "Rendez-vous directement sur le site concerné."
+    }
+  },
+  "legal": {
+    "metaTitle": "Mentions légales",
+    "header": {
+      "eyebrow": "Informations",
+      "title": "Mentions légales & confidentialité"
+    },
+    "sections": [
+      {
+        "title": "Éditeur du site",
+        "body": "Le site linton.ma est édité par LINTON, société de droit marocain dont le siège est situé à Tanger, Maroc. Contact : contact@linton.ma."
+      },
+      {
+        "title": "Hébergement",
+        "body": "Le site est hébergé sur un serveur privé virtuel. Les coordonnées de l'hébergeur sont disponibles sur simple demande."
+      },
+      {
+        "title": "Propriété intellectuelle",
+        "body": "L'ensemble des contenus de ce site (textes, logos, visuels) est la propriété de LINTON. Toute reproduction sans autorisation préalable est interdite."
+      },
+      {
+        "title": "Données personnelles",
+        "body": "Les informations transmises via le formulaire de contact sont utilisées uniquement pour répondre à votre demande et ne sont jamais cédées à des tiers. Conformément à la loi 09-08, vous disposez d'un droit d'accès, de rectification et d'opposition, que vous pouvez exercer en écrivant à contact@linton.ma."
+      },
+      {
+        "title": "Cookies",
+        "body": "Ce site n'utilise aucun cookie publicitaire ni de mesure d'audience. Seule votre préférence d'affichage (mode clair ou sombre) est conservée dans votre navigateur."
+      }
+    ]
+  },
+  "contact": {
+    "eyebrow": "Contact",
+    "title": "Un projet ? Parlons-en.",
+    "body": "Identification, cloud ou cybersécurité : décrivez votre besoin, nous l'orientons vers la bonne équipe.",
+    "cta": "Nous écrire",
+    "form": {
+      "eyebrow": "Nouvelle demande",
+      "title": "Écrivez-nous",
+      "name": "Nom complet",
+      "company": "Société",
+      "email": "E-mail professionnel",
+      "need": "Métier concerné",
+      "needPlaceholder": "Choisissez…",
+      "needOptions": [
+        "Identification & traçabilité (/ID)",
+        "Développement, Odoo & MS365 (/Cloud)",
+        "Cybersécurité & média (/Media)",
+        "Projet combinant plusieurs métiers",
+        "Autre demande"
+      ],
+      "message": "Votre message",
+      "messagePlaceholder": "Contexte, objectifs, délais…",
+      "submit": "Envoyer la demande",
+      "submitting": "Envoi…",
+      "successTitle": "Demande envoyée",
+      "successBody": "Merci ! Votre référence : {reference}. Nous revenons vers vous rapidement.",
+      "errorBody": "L'envoi a échoué. Réessayez ou écrivez-nous à contact@linton.ma.",
+      "close": "Fermer"
+    }
+  },
+  "footer": {
+    "description": "Groupe marocain réunissant trois métiers : identification et traçabilité industrielles, développement et solutions cloud, cybersécurité et média.",
+    "columns": {
+      "lines": "Nos métiers",
+      "company": "Le groupe"
+    },
+    "legal": "Mentions légales",
+    "rights": "Tous droits réservés.",
+    "location": "Tanger, Maroc"
+  },
+  "notFound": {
+    "eyebrow": "Page introuvable",
+    "title": "Cette page n'existe pas",
+    "body": "La page que vous cherchez a peut-être été déplacée ou n'est plus disponible.",
+    "backHome": "Retour à l'accueil"
+  }
+}
