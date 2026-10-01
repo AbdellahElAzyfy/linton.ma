@@ -13,6 +13,8 @@ and `dictionaries/en.json`, and French is the default locale.
 npm install
 npm run dev        # http://localhost:3000 → redirects to /fr or /en
 npm run build
+npm start           # serves the build through app.js, like cPanel does
+npm run pack:cpanel # build + dist/linton-ma-cpanel.zip for cPanel
 npm run sweep      # Playwright screenshots of every page/locale/theme/viewport (needs dev server)
 ```
 
@@ -31,11 +33,13 @@ npm run sweep      # Playwright screenshots of every page/locale/theme/viewport 
 
 ## Contact form
 
-Enquiries are sent by email through SMTP (`SMTP_HOST`, `SMTP_USER`, `SMTP_PASSWORD` in `.env`, see
-`.env.example`). Without credentials, they are only written to the server log. Nothing is stored, so
-if SMTP is configured and sending fails, the visitor sees an error instead of a false success.
+Enquiries are sent by email over SMTP. `SMTP_HOST`, `SMTP_USER` and `SMTP_PASSWORD` are all required
+(`SMTP_PORT` defaults to 465); see `.env.example`. Without them, enquiries are only written to the
+server log. Nothing is stored, so if SMTP is configured and sending fails, the visitor sees an error
+instead of a false success.
 
 ## Deploy
 
-`docker compose -f docker-compose.prod.yml --env-file .env up -d --build`. This runs the app behind
-Caddy, which handles HTTPS for linton.ma and www.linton.ma.
+Production runs on cPanel (Setup Node.js App / Passenger) through `app.js`. `npm run pack:cpanel`
+builds the site and writes `dist/linton-ma-cpanel.zip`; the full procedure is in
+[DEPLOY.md](DEPLOY.md). The Docker/Caddy files are an alternative for a plain VPS.

@@ -47,3 +47,6 @@ next-env.d.ts
 
 # playwright sweep output
 /screenshots
+
+# cPanel deploy package (npm run pack:cpanel)
+/dist

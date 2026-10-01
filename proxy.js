@@ -21,10 +21,15 @@ export function proxy(request) {
   const { pathname } = request.nextUrl;
   if (/^\/(en|fr)(\/|$)/.test(pathname)) return;
 
+  // nextUrl keeps the query string; the redirect must be absolute (Next's
+  // proxy layer throws "Invalid URL" on a relative Location).
   request.nextUrl.pathname = `/${getLocale(request)}${pathname === "/" ? "" : pathname}`;
   return NextResponse.redirect(request.nextUrl);
 }
 
 export const config = {
-  matcher: ["/((?!_next|api|.*\..*).*)"],
+  // Skips Next internals, the API and any path with a file extension (static
+  // files in /public, robots.txt, sitemap.xml). The backslash is doubled
+  // because this is a plain JS string, not a regex literal.
+  matcher: ["/((?!_next|api|.*\\..*).*)"],
 };
