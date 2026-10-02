@@ -927,6 +927,31 @@
   line-height: 1.8;
 }
 
+/* Rich text from the admin: several paragraphs, lists, links, sub-headings. */
+.prose > * + * {
+  margin-top: 1rem;
+}
+
+.prose ul,
+.prose ol {
+  margin-bottom: 0;
+  padding-left: 1.25rem;
+  color: var(--text-muted);
+  line-height: 1.8;
+}
+
+.prose a {
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+}
+
+.prose h3,
+.prose h4 {
+  margin-bottom: 0;
+  font-size: 1.1rem;
+}
+
 /* ===== 404 ===== */
 .notFound {
   position: relative;

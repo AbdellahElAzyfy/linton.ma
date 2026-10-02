@@ -5,11 +5,13 @@
 // the build happens here and only its output is uploaded. See DEPLOY.md.
 //
 // What goes in the zip, and what stays out:
-//   app.js, next.config.mjs   startup file / config loaded at runtime
+//   app.cjs, next.config.mjs   startup file / config loaded at runtime
 //   package.json              runtime dependencies only (no dev tooling)
 //   package-lock.json         matching lock, so the server installs the same versions
-//   public/                   static files
+//   public/                   static files, minus public/media
 //   .next/                    the build, minus caches, source maps and dev/trace files
+//   NOT public/media          images uploaded in the admin live only on the server;
+//                             shipping the local folder would overwrite them
 //   NOT node_modules          cPanel's Node.js Selector creates its own node_modules
 //                             (a symlink into a per-app virtual environment) and
 //                             fails or misbehaves if the folder already exists.
@@ -20,7 +22,7 @@
 import { spawnSync } from "node:child_process";
 import { createRequire } from "node:module";
 import { crc32, deflateRawSync } from "node:zlib";
-import { copyFileSync, existsSync, mkdirSync, mkdtempSync, readFileSync, readdirSync, rmSync, statSync, writeFileSync } from "node:fs";
+import { copyFileSync, existsSync, mkdirSync, mkdtempSync, readFileSync, readdirSync, readlinkSync, rmSync, statSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join, posix, resolve } from "node:path";
 
@@ -39,7 +41,7 @@ if (!process.argv.includes("--no-build")) {
   const result = spawnSync(process.execPath, [require.resolve("next/dist/bin/next", { paths: [root] }), "build"], {
     cwd: root,
     stdio: "inherit",
-    // Standalone output can't be served by app.js's custom server.
+    // Standalone output can't be served by app.cjs's custom server.
     env: { ...process.env, NEXT_OUTPUT: "" },
   });
   if (result.status !== 0) fail("next build failed.");
@@ -52,7 +54,8 @@ const runtimePkg = {
   name: pkg.name,
   version: pkg.version,
   private: true,
-  scripts: { start: "node app.js" },
+  type: pkg.type,
+  scripts: { start: "node app.cjs" },
   dependencies: pkg.dependencies,
   engines: pkg.engines,
 };
@@ -90,11 +93,28 @@ function walk(dir, rel, keep) {
   }
 }
 
-add("app.js", readFileSync(join(root, "app.js")));
+// Turbopack loads some server packages (mongoose, sharp, pino…) through
+// .next/node_modules/<package>-<hash>, which are symlinks to this machine's
+// node_modules. Symlinks to C:\… can't ship; app.cjs recreates them on the
+// server from this list.
+const externalsDir = join(root, ".next", "node_modules");
+const externals = {};
+if (existsSync(externalsDir)) {
+  for (const item of readdirSync(externalsDir, { withFileTypes: true })) {
+    if (!item.isSymbolicLink()) fail(`.next/node_modules/${item.name} isn't a symlink — check the build.`);
+    const target = readlinkSync(join(externalsDir, item.name)).replaceAll("\\", "/");
+    const pkgName = target.slice(target.lastIndexOf("node_modules/") + "node_modules/".length);
+    if (!pkgName || pkgName === target) fail(`Can't tell which package .next/node_modules/${item.name} points to (${target}).`);
+    externals[item.name] = pkgName;
+  }
+}
+add(".next/external-modules.json", Buffer.from(JSON.stringify(externals, null, 2) + "\n"));
+
+add("app.cjs", readFileSync(join(root, "app.cjs")));
 add("next.config.mjs", readFileSync(join(root, "next.config.mjs")));
 add("package.json", Buffer.from(JSON.stringify(runtimePkg, null, 2) + "\n"));
 add("package-lock.json", runtimeLock);
-walk(join(root, "public"), "public", () => true);
+walk(join(root, "public"), "public", (name) => name !== "public/media");
 walk(join(root, ".next"), ".next", (name) => {
   const top = name.split("/")[1];
   return !NEXT_SKIP_TOP.has(top) && !name.endsWith(".map");
@@ -102,7 +122,8 @@ walk(join(root, ".next"), ".next", (name) => {
 entries.sort((a, b) => (a.name < b.name ? -1 : 1));
 
 if (entries.some((e) => e.name.split("/").includes("node_modules"))) fail("node_modules ended up in the package.");
-for (const required of ["app.js", "package.json", "package-lock.json", ".next/BUILD_ID", ".next/required-server-files.json"]) {
+if (entries.some((e) => e.name.startsWith("public/media/"))) fail("public/media ended up in the package.");
+for (const required of ["app.cjs", "package.json", "package-lock.json", ".next/BUILD_ID", ".next/required-server-files.json"]) {
   if (!entries.some((e) => e.name === required)) fail(`Package is missing ${required}.`);
 }
 

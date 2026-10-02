@@ -50,3 +50,8 @@ next-env.d.ts
 
 # cPanel deploy package (npm run pack:cpanel)
 /dist
+
+# Payload: generated types (rewritten by `next dev`) and admin uploads,
+# which live on the server, not in git
+/payload-types.ts
+/public/media

@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { Eyebrow } from "@/components/ui/Eyebrow";
-import styles from "@/app/[lang]/Home.module.css";
+import styles from "@/app/(frontend)/[lang]/Home.module.css";
 
 // Dark title band at the top of inner pages.
 export function PageHeader({ lang, dict, eyebrow, title, lead }) {

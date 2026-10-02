@@ -2,7 +2,7 @@ import { LineMark } from "@/components/brand/LineMark";
 import { LineIcon } from "@/components/brand/LineIcon";
 import { Reveal } from "@/components/ui/Reveal";
 import { LINES, lineUrl } from "@/lib/lines";
-import styles from "@/app/[lang]/Home.module.css";
+import styles from "@/app/(frontend)/[lang]/Home.module.css";
 
 // The three business-line cards. Each whole card links out to its site: the
 // hub pitches, the specialised site carries the detail.

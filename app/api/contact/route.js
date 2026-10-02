@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { notifyEnquiry } from "@/lib/notify";
+import { getPayloadClient } from "@/lib/content";
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const MAX_LENGTH = 5000;
@@ -8,8 +9,6 @@ function reference() {
   return `LNT-${Date.now().toString(36).toUpperCase()}`;
 }
 
-// No database on this site: an enquiry is only delivered by email (or
-// written to the server log when SMTP isn't configured — see lib/notify.js).
 export async function POST(request) {
   let body;
   try {
@@ -39,17 +38,42 @@ export async function POST(request) {
   }
 
   const ref = reference();
+  const lang = body.lang === "en" ? "en" : "fr";
+
+  // Saved first, so the message is in the admin (Messages) even when the
+  // e-mail fails; then e-mailed. Either one is enough not to lose it.
+  let saved = null;
+  try {
+    const payload = await getPayloadClient();
+    saved = await payload.create({
+      collection: "submissions",
+      data: { reference: ref, status: "new", emailed: false, ...values, lang },
+    });
+  } catch (err) {
+    console.error("[enquiry] could not save to the database", err);
+  }
+
   const result = await notifyEnquiry({
     type: "enquiry",
     reference: ref,
     ...values,
-    lang: body.lang === "en" ? "en" : "fr",
+    lang,
     receivedAt: new Date().toISOString(),
   });
 
-  // With nowhere else to keep it, an enquiry that failed to send must be
-  // reported to the visitor rather than silently dropped.
-  if (result.configured !== false && !result.delivered) {
+  if (saved && result.delivered) {
+    try {
+      const payload = await getPayloadClient();
+      await payload.update({ collection: "submissions", id: saved.id, data: { emailed: true } });
+    } catch (err) {
+      console.error("[enquiry] could not mark as e-mailed", err);
+    }
+  }
+
+  // Neither stored nor sent: the visitor must know, rather than believe it
+  // went through. (Without SMTP configured, e.g. in local dev, the enquiry is
+  // at least written to the server log.)
+  if (!saved && !result.delivered && result.configured !== false) {
     return NextResponse.json({ ok: false, error: "delivery_failed" }, { status: 502 });
   }
 

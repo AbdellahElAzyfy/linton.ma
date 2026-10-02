@@ -496,7 +496,7 @@ p {
    @keyframes of the same name (defined here) silently never matches and the
    animation never runs (browser reports animation-play-state: running with
    zero visible motion, since no keyframes effect actually resolves). See
-   line-sweep/scan-move in app/[lang]/Home.module.css and dialog-enter in
+   line-sweep/scan-move in app/(frontend)/[lang]/Home.module.css and dialog-enter in
    ContactDialog.module.css. */
 
 @media (prefers-reduced-motion: reduce) {

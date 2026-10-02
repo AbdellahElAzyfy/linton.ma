@@ -5,14 +5,15 @@ import { useReducedMotion } from "@/components/ui/useReducedMotion";
 import { LineIcon } from "@/components/brand/LineIcon";
 import { SIGNAL_BARS, SIGNAL_ACCENTS } from "@/components/brand/SignalBars";
 import { LINES } from "@/lib/lines";
-import styles from "@/app/[lang]/Home.module.css";
+import styles from "@/app/(frontend)/[lang]/Home.module.css";
 
 // One ellipse per business line, rotated around the core. Each carries a
-// node travelling along it (SMIL, so the path follows the rotation for free).
+// node travelling along it (SMIL, so the path follows the rotation for free),
+// coloured like that line's chip: mint, cyan, and Media's mint→cyan gradient.
 const ORBITS = [
   { line: "id", angle: -28, dur: 16, color: "#00ff91" },
   { line: "cloud", angle: 32, dur: 21, color: "#00c9ff" },
-  { line: "media", angle: 92, dur: 26, color: "#f8f8f8" },
+  { line: "media", angle: 92, dur: 26, color: "url(#media-node)" },
 ];
 const RX = 250;
 const RY = 88;
@@ -26,7 +27,7 @@ const BARS_BASE = 300 + BAR_MAX / 2;
 
 const CHIP_CLASSES = { id: styles.chipOne, cloud: styles.chipTwo, media: styles.chipThree };
 
-export function HeroVisual({ hero, lines }) {
+export function HeroVisual({ visual, lines }) {
   const tiltRef = useTilt();
   const reducedMotion = useReducedMotion();
 
@@ -34,8 +35,8 @@ export function HeroVisual({ hero, lines }) {
     <div className={styles.heroVisual} ref={tiltRef}>
       <figure className={styles.orbitScene}>
         <svg viewBox="0 0 600 600" role="img" aria-labelledby="orbit-title orbit-desc">
-          <title id="orbit-title">{hero.visualTitle}</title>
-          <desc id="orbit-desc">{hero.visualDesc}</desc>
+          <title id="orbit-title">{visual.title}</title>
+          <desc id="orbit-desc">{visual.description}</desc>
           <defs>
             <radialGradient id="core-surface" cx=".35" cy=".3" r=".8">
               <stop offset="0" stopColor="#1c1c78" />
@@ -46,6 +47,10 @@ export function HeroVisual({ hero, lines }) {
               <stop offset="0" stopColor="#00ff91" stopOpacity="0" />
               <stop offset=".5" stopColor="#00ff91" />
               <stop offset="1" stopColor="#00ff91" stopOpacity="0" />
+            </linearGradient>
+            <linearGradient id="media-node" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0" stopColor="#00ff91" />
+              <stop offset="1" stopColor="#00c9ff" />
             </linearGradient>
             <filter id="node-glow" x="-200%" y="-200%" width="500%" height="500%">
               <feGaussianBlur stdDeviation="5" />

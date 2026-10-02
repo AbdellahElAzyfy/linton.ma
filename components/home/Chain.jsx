@@ -2,19 +2,19 @@ import { Eyebrow } from "@/components/ui/Eyebrow";
 import { Reveal } from "@/components/ui/Reveal";
 import { LineMark } from "@/components/brand/LineMark";
 import { LINES } from "@/lib/lines";
-import styles from "@/app/[lang]/Home.module.css";
+import styles from "@/app/(frontend)/[lang]/Home.module.css";
 
 const SUFFIX = Object.fromEntries(LINES.map((line) => [line.key, line.suffix]));
 
 // Capture → use → protect: how the three business lines chain together.
-export function Chain({ chain }) {
+export function Chain({ chain, id = "chain" }) {
   return (
-    <section className={`${styles.section} ${styles.sectionInverted}`} aria-labelledby="chain-title">
+    <section className={`${styles.section} ${styles.sectionInverted}`} aria-labelledby={`${id}-title`}>
       <div className={`grid-lines ${styles.gridLinesFaint}`} aria-hidden="true" />
       <div className={`shell ${styles.sectionInner}`}>
         <Reveal as="div" className={styles.sectionHeading}>
           <Eyebrow onInverted>{chain.eyebrow}</Eyebrow>
-          <h2 id="chain-title" className={styles.sectionTitle}>
+          <h2 id={`${id}-title`} className={styles.sectionTitle}>
             {chain.title}
           </h2>
           <p>{chain.lead}</p>

@@ -13,7 +13,7 @@ const CLOSE_DELAY = 160;
 // the three specialised sites. Opens on hover for fine pointers (with a short
 // close delay so the pointer can travel from trigger to panel) and on click
 // for everyone; Escape, outside clicks and navigation close it.
-export function LinesMenu({ lang, dict, onOpenChange }) {
+export function LinesMenu({ lang, dict, label, intro, onOpenChange }) {
   const [open, setOpen] = useState(false);
   const panelId = useId();
   const rootRef = useRef(null);
@@ -98,7 +98,7 @@ export function LinesMenu({ lang, dict, onOpenChange }) {
         aria-controls={panelId}
         onClick={onTriggerClick}
       >
-        {dict.nav.lines}
+        {label}
         <svg viewBox="0 0 10 6" aria-hidden="true" className={styles.chevron}>
           <path d="m1 1 4 4 4-4" />
         </svg>
@@ -107,7 +107,7 @@ export function LinesMenu({ lang, dict, onOpenChange }) {
       {open && <div className={styles.scrim} aria-hidden="true" />}
 
       <div id={panelId} className={`${styles.panel} ${open ? styles.panelOpen : ""}`}>
-        <p className={styles.intro}>{dict.nav.linesIntro}</p>
+        {intro && <p className={styles.intro}>{intro}</p>}
         <ul className={styles.grid}>
           {LINES.map((line) => {
             const copy = dict.lines[line.key];

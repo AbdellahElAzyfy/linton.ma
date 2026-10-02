@@ -1,0 +1,22 @@
+.wrapper {
+  padding: 0 calc(var(--gutter-h, 1.6rem) / 1.6);
+  margin-top: 0.5rem;
+}
+
+.link {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 0.75rem;
+  border: 1px solid var(--theme-elevation-150);
+  border-radius: 4px;
+  color: var(--theme-text);
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.link:hover,
+.link:focus-visible {
+  background: var(--theme-elevation-100);
+}

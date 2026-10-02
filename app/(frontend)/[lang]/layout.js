@@ -1,6 +1,7 @@
 import { Barlow_Condensed, IBM_Plex_Mono, Manrope, Poppins } from "next/font/google";
 import { notFound } from "next/navigation";
 import { getDictionary, hasLocale, locales } from "./dictionaries";
+import { getSiteData, mergeDict } from "@/lib/content";
 import { ThemeProvider } from "@/components/theme/ThemeProvider";
 import { themeInitScript } from "@/components/theme/theme-script";
 import { MotionReady } from "@/components/motion/MotionReady";
@@ -39,8 +40,6 @@ const poppins = Poppins({
   display: "swap",
 });
 
-export const dynamicParams = false;
-
 export function generateStaticParams() {
   return locales.map((lang) => ({ lang }));
 }
@@ -48,18 +47,18 @@ export function generateStaticParams() {
 export async function generateMetadata({ params }) {
   const { lang } = await params;
   if (!hasLocale(lang)) return {};
-  const dict = await getDictionary(lang);
+  const { settings } = await getSiteData(lang);
 
   return {
     title: {
-      default: dict.meta.title,
-      template: `%s — ${dict.meta.siteName}`,
+      default: settings.defaultTitle,
+      template: `%s — ${settings.siteName}`,
     },
-    description: dict.meta.description,
+    description: settings.defaultDescription,
     metadataBase: new URL(SITE_URL),
     alternates: localizedAlternates(lang),
     openGraph: {
-      siteName: dict.meta.siteName,
+      siteName: settings.siteName,
       locale: lang === "fr" ? "fr_MA" : "en_US",
     },
   };
@@ -69,7 +68,8 @@ export default async function LangLayout({ children, params }) {
   const { lang } = await params;
   if (!hasLocale(lang)) notFound();
 
-  const dict = await getDictionary(lang);
+  const [ui, site] = await Promise.all([getDictionary(lang), getSiteData(lang)]);
+  const dict = mergeDict(ui, site);
   const fontVars = [barlowCondensed, manrope, plexMono, poppins].map((font) => font.variable).join(" ");
 
   return (
@@ -83,11 +83,11 @@ export default async function LangLayout({ children, params }) {
         <ThemeProvider>
           <MotionReady />
           <a className="skip-link" href="#main-content">
-            {lang === "fr" ? "Aller au contenu" : "Skip to content"}
+            {dict.nav.skipToContent}
           </a>
-          <Header lang={lang} dict={dict} />
+          <Header lang={lang} dict={dict} nav={site.navigation.header} />
           <main id="main-content">{children}</main>
-          <Footer lang={lang} dict={dict} />
+          <Footer lang={lang} dict={dict} nav={site.navigation.footer} footer={site.settings.footer} />
         </ThemeProvider>
       </body>
     </html>

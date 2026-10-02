@@ -1,5 +1,6 @@
 import { ImageResponse } from "next/og";
-import { getDictionary, hasLocale, locales } from "./dictionaries";
+import { hasLocale, locales } from "./dictionaries";
+import { getSiteData } from "@/lib/content";
 import { SIGNAL_BARS, SIGNAL_ACCENTS } from "@/components/brand/SignalBars";
 import { LINES } from "@/lib/lines";
 
@@ -13,7 +14,7 @@ export function generateStaticParams() {
 
 export default async function Image({ params }) {
   const { lang } = await params;
-  const dict = await getDictionary(hasLocale(lang) ? lang : "fr");
+  const { settings } = await getSiteData(hasLocale(lang) ? lang : "fr");
 
   return new ImageResponse(
     (
@@ -64,7 +65,7 @@ export default async function Image({ params }) {
             color: "#00c9ff",
           }}
         >
-          {dict.meta.tagline}
+          {settings.tagline}
         </div>
         <div style={{ display: "flex", gap: "20px", marginTop: "56px" }}>
           {LINES.map((line) => (

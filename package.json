@@ -2,29 +2,45 @@
   "name": "linton-ma",
   "version": "0.1.0",
   "private": true,
+  "type": "module",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "node app.js",
+    "start": "node app.cjs",
     "lint": "eslint",
+    "payload": "payload",
+    "generate:importmap": "payload generate:importmap",
+    "seed": "payload run scripts/seed.ts",
     "sweep": "node scripts/sweep.mjs",
     "pack:cpanel": "node scripts/pack-cpanel.mjs"
   },
   "dependencies": {
+    "@payloadcms/db-mongodb": "3.89.0",
+    "@payloadcms/next": "3.89.0",
+    "@payloadcms/richtext-lexical": "3.89.0",
+    "@payloadcms/translations": "3.89.0",
+    "@payloadcms/ui": "3.89.0",
+    "graphql": "^16.14.2",
     "next": "16.3.4",
     "nodemailer": "^10.0.10",
+    "payload": "3.89.0",
     "react": "19.2.8",
-    "react-dom": "19.2.8"
+    "react-dom": "19.2.8",
+    "sharp": "^0.35.4"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
+    "@types/node": "^26.6.3",
+    "@types/react": "^19.3.0",
     "babel-plugin-react-compiler": "1.0.0",
     "eslint": "^9",
     "eslint-config-next": "16.3.4",
     "playwright": "^1.63.0",
-    "tailwindcss": "^4"
+    "tailwindcss": "^4",
+    "typescript": "^6.0.3"
   },
   "allowScripts": {
+    "esbuild@0.28.2": true,
     "unrs-resolver@1.12.2": true
   },
   "engines": {

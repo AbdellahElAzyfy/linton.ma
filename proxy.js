@@ -15,10 +15,18 @@ function getLocale(request) {
 }
 
 // Every page lives under /fr or /en. Anything without a locale prefix is
-// redirected to the visitor's preferred one; unknown paths under a locale are
-// answered by app/[lang]/[...rest] with a localized 404.
+// redirected to the visitor's preferred one; unknown paths under a locale get
+// the localized 404 (app/(frontend)/[lang]/not-found.js).
 export function proxy(request) {
   const { pathname } = request.nextUrl;
+
+  // The admin has no language prefix: /fr/admin/… and /en/admin/… go to /admin/….
+  const admin = pathname.match(/^\/(?:en|fr)(\/admin(?:\/.*)?)$/);
+  if (admin) {
+    request.nextUrl.pathname = admin[1];
+    return NextResponse.redirect(request.nextUrl);
+  }
+
   if (/^\/(en|fr)(\/|$)/.test(pathname)) return;
 
   // nextUrl keeps the query string; the redirect must be absolute (Next's
@@ -28,8 +36,9 @@ export function proxy(request) {
 }
 
 export const config = {
-  // Skips Next internals, the API and any path with a file extension (static
-  // files in /public, robots.txt, sitemap.xml). The backslash is doubled
-  // because this is a plain JS string, not a regex literal.
-  matcher: ["/((?!_next|api|.*\\..*).*)"],
+  // Skips Next internals, the API, the Payload admin and any path with a file
+  // extension (static files in /public, robots.txt, sitemap.xml). The
+  // backslash is doubled because this is a plain JS string, not a regex
+  // literal.
+  matcher: ["/((?!_next|api|admin|.*\\..*).*)"],
 };

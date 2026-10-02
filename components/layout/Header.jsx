@@ -10,9 +10,32 @@ import { LanguageSwitcher } from "@/components/layout/LanguageSwitcher";
 import { LinesMenu } from "@/components/layout/LinesMenu";
 import { LineMark } from "@/components/brand/LineMark";
 import { LINES, lineUrl } from "@/lib/lines";
+import { isExternalHref, localizeHref } from "@/lib/links";
 import styles from "./Header.module.css";
 
-export function Header({ lang, dict }) {
+function NavLink({ item, lang, dict, className, isActive }) {
+  const href = localizeHref(item.href, lang);
+  if (isExternalHref(href)) {
+    return (
+      <a href={href} className={className} target="_blank" rel="noopener">
+        {item.label}
+        <span className="sr-only"> ({dict.nav.external})</span>
+      </a>
+    );
+  }
+  return (
+    <Link href={href} className={className} aria-current={isActive?.(href) ? "page" : undefined}>
+      {item.label}
+    </Link>
+  );
+}
+
+// Menu items, their order and the button come from the admin (Navigation
+// global). A "linesMenu" item is the drop-down of the three LINTON sites.
+export function Header({ lang, dict, nav }) {
+  const items = nav?.items ?? [];
+  const linesMenu = items.find((item) => item.type === "linesMenu");
+  const cta = nav?.cta;
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [linesOpen, setLinesOpen] = useState(false);
@@ -72,29 +95,30 @@ export function Header({ lang, dict }) {
         </Link>
 
         <nav className={styles.nav} aria-label="Primary">
-          <Link
-            href={`/${lang}/about`}
-            className={styles.navLink}
-            aria-current={isActive(`/${lang}/about`) ? "page" : undefined}
-          >
-            {dict.nav.about}
-          </Link>
-          <LinesMenu lang={lang} dict={dict} onOpenChange={setLinesOpen} />
-          <Link
-            href={`/${lang}/contact`}
-            className={styles.navLink}
-            aria-current={isActive(`/${lang}/contact`) ? "page" : undefined}
-          >
-            {dict.nav.contact}
-          </Link>
+          {items.map((item, index) =>
+            item.type === "linesMenu" ? (
+              <LinesMenu
+                key={item.id ?? index}
+                lang={lang}
+                dict={dict}
+                label={item.label}
+                intro={item.intro}
+                onOpenChange={setLinesOpen}
+              />
+            ) : (
+              <NavLink key={item.id ?? index} item={item} lang={lang} dict={dict} className={styles.navLink} isActive={isActive} />
+            )
+          )}
         </nav>
 
         <div className={styles.actions}>
           <LanguageSwitcher lang={lang} label={dict.language.switchTo} />
           <ThemeToggle dict={dict} />
-          <Button href={`/${lang}/contact`} compact className={styles.cta}>
-            {dict.nav.cta}
-          </Button>
+          {cta?.label && (
+            <Button href={localizeHref(cta.href, lang)} compact className={styles.cta}>
+              {cta.label}
+            </Button>
+          )}
           <button
             type="button"
             className={`${styles.menuToggle} ${menuOpen ? styles.menuToggleOpen : ""}`}
@@ -119,32 +143,37 @@ export function Header({ lang, dict }) {
         <Link href={`/${lang}`} className={styles.mobileNavLink}>
           {dict.nav.home}
         </Link>
-        <Link href={`/${lang}/about`} className={styles.mobileNavLink}>
-          {dict.nav.about}
-        </Link>
-        <Link href={`/${lang}/contact`} className={styles.mobileNavLink}>
-          {dict.nav.contact}
-        </Link>
-
-        <p className={styles.mobileLinesTitle}>{dict.nav.lines}</p>
-        <ul className={styles.mobileLines}>
-          {LINES.map((line) => (
-            <li key={line.key}>
-              <a href={lineUrl(line, lang)} target="_blank" rel="noopener" className={styles.mobileLine}>
-                <LineMark suffix={line.suffix} className={styles.mobileLineMark} />
-                <span className={styles.mobileLineName}>{dict.lines[line.key].name}</span>
-                <span className={styles.mobileLineArrow} aria-hidden="true">
-                  ↗
-                </span>
-                <span className="sr-only">({dict.nav.external})</span>
-              </a>
-            </li>
+        {items
+          .filter((item) => item.type !== "linesMenu")
+          .map((item, index) => (
+            <NavLink key={item.id ?? index} item={item} lang={lang} dict={dict} className={styles.mobileNavLink} />
           ))}
-        </ul>
 
-        <div className={styles.mobileActions}>
-          <Button href={`/${lang}/contact`}>{dict.nav.cta}</Button>
-        </div>
+        {linesMenu && (
+          <>
+            <p className={styles.mobileLinesTitle}>{linesMenu.label}</p>
+            <ul className={styles.mobileLines}>
+              {LINES.map((line) => (
+                <li key={line.key}>
+                  <a href={lineUrl(line, lang)} target="_blank" rel="noopener" className={styles.mobileLine}>
+                    <LineMark suffix={line.suffix} className={styles.mobileLineMark} />
+                    <span className={styles.mobileLineName}>{dict.lines[line.key].name}</span>
+                    <span className={styles.mobileLineArrow} aria-hidden="true">
+                      ↗
+                    </span>
+                    <span className="sr-only">({dict.nav.external})</span>
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </>
+        )}
+
+        {cta?.label && (
+          <div className={styles.mobileActions}>
+            <Button href={localizeHref(cta.href, lang)}>{cta.label}</Button>
+          </div>
+        )}
       </nav>
     </header>
   );
